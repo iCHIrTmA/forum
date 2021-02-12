@@ -27,5 +27,23 @@
         </div>
     </div>
 
+    @auth
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="POST" action="{{ url($thread->path() . '/replies') }}">
+                @csrf
+                @method('POST')
+                <div class="form-group">
+                    <textarea name="body" id="body" class="form-control" placeholder="Have something to say?" rows="5">                        
+                    </textarea>
+
+                    <button type="submit" class="btn btn-default">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    @else
+        <p class="text-center">Please <a href="{{ url('login')}}">sign in</a> to participate in this discussion</p>
+    @endauth
 </div>
 @endsection
