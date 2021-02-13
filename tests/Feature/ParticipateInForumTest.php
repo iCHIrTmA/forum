@@ -27,7 +27,8 @@ class ParticipateInForum extends TestCase
     public function an_authenticated_user_may_participate_in_forum_threads()
     {
         $this->withoutExceptionHandling();
-        $this->be($user = factory(User::class)->create());
+
+        $this->signIn();
 
         $thread = factory(Thread::class)->create();
 
