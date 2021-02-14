@@ -15,19 +15,10 @@ class CreateThreadsTest extends TestCase
 
     /** @test **/
     public function guests_may_not_create_threads()
-    {
-        $this->withoutExceptionHandling();
-        $this->expectException(AuthenticationException::class);
+    {        
+        $this->get('/threads/create')->assertRedirect('/login');
 
-        $thread = factory(Thread::class)->make();
-        
-        $this->post('/threads', $thread->toArray());
-    }
-
-    /** @test **/
-    public function guests_cannot_see_the_create_thread_page()
-    {
-        $this->get('/threads/create')->assertRedirect('login');
+        $this->post('/threads', [])->assertRedirect('/login');
     }
 
     /** @test **/
@@ -36,7 +27,7 @@ class CreateThreadsTest extends TestCase
         $this->withoutExceptionHandling();
         $this->signIn();
 
-        $thread = factory(Thread::class)->make();
+        $thread = factory(Thread::class)->create();
 
         $this->post('/threads', $thread->toArray());
 
