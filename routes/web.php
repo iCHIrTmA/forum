@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/threads', 'ThreadController@index');
+Route::get('/threads/create', 'ThreadController@create')->middleware('auth');
 Route::post('/threads', 'ThreadController@store')->middleware('auth');
 Route::get('/threads/{thread}', 'ThreadController@show');
 Route::post('/threads/{thread}/replies', 'ReplyController@store')->middleware('auth');

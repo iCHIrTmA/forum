@@ -12,6 +12,7 @@ use Tests\TestCase;
 class CreateThreadsTest extends TestCase
 {
     use RefreshDatabase;
+
     /** @test **/
     public function guests_may_not_create_threads()
     {
@@ -21,6 +22,12 @@ class CreateThreadsTest extends TestCase
         $thread = factory(Thread::class)->make();
         
         $this->post('/threads', $thread->toArray());
+    }
+
+    /** @test **/
+    public function guests_cannot_see_the_create_thread_page()
+    {
+        $this->get('/threads/create')->assertRedirect('login');
     }
 
     /** @test **/

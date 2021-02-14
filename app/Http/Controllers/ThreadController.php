@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ThreadController extends Controller
 {
+	public function create()
+	{
+		return view('threads.create');
+	}
 	public function store(Request $request)
 	{
 		$thread = Thread::create([
