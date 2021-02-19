@@ -36,6 +36,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('threads') }}">All Threads</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('threads/create') }}">New Thread</a>
+                        </li>
                         <div class="dropdown">
                              <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Channels</a>
                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
