@@ -18,16 +18,28 @@ abstract class Filters
 	{
 		$this->builder = $builder;
 
-		foreach ($this->filters as $filter) {
-			if (method_exists($this, $filter) && $this->request->has($filter)) {
-				$this->$filter($this->request->$filter);
-			}
-		}
+		// dd($this->getFilters());
 
-		// if ($this->request->has('by')) { 
-		// 	$this->by($this->request->by);
-		// }
+		foreach ($this->getFilters() as $filter => $value) {
+			if (method_exists($this, $filter)) {
+				$this->$filter($value);
+			} 
+
+			// if ( ! $this->hasFilter($filter)) return;
+				
+			// $this->$filter($this->request->$filter);
+		}
 
 		return $this->builder;
 	}
+
+	public function getFilters()
+	{
+		return $this->request->only($this->filters); 
+	}
+
+	// public function hasFilter($filter): bool
+	// {
+	// 	return $this->request->has($filter);
+	// }
 }
