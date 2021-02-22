@@ -16,7 +16,6 @@
                     {{ $thread->body }}
                 </div>
             </div>
-            @php $replies = $thread->replies()->paginate(1); @endphp
             @foreach($replies as $reply)
                 @include('threads.reply')
             @endforeach
