@@ -50,6 +50,9 @@
                                     <a class="nav-link" href="{{ url('threads?by=' . auth()->user()->name) }}">My Threads</a>
                                 </li>
                                 @endauth
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('/threads?popular=1')}}">Popular Threads</a>
+                                </li>
                              </div>
                         </div>
 
