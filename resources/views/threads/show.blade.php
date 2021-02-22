@@ -16,9 +16,12 @@
                     {{ $thread->body }}
                 </div>
             </div>
-            @foreach($thread->replies as $reply)
+            @php $replies = $thread->replies()->paginate(1); @endphp
+            @foreach($replies as $reply)
                 @include('threads.reply')
             @endforeach
+
+            {{ $replies->links() }}
 
             @auth
                 <form method="POST" action="{{ url($thread->path() . '/replies') }}">
@@ -41,7 +44,8 @@
                 <div class="card-body">
                     <p>
                         This thread was published{{ $thread->created_at->diffForHumans() }} by 
-                        <a href="#">{{ $thread->creator->name }}</a>, and currently has {{ $thread->replies()->count() }} comments.
+                        <a href="#">{{ $thread->creator->name }}</a>, and currently has {{ $thread->replies_count }}
+                        {{ Str::plural('comment', $thread->replies_count) }}.
                     </p>
                 </div>
             </div>                    
