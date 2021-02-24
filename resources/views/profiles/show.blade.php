@@ -19,7 +19,10 @@
 						            <a href="#"> 
 						                {{ $thread->creator->name }}
 						            </a>
-						            posted {{ $thread->title }}
+						            posted 
+						            <a href="{{ url($thread->path()) }}">
+						            	{{ $thread->title }}
+						            </a>
 						        </span>
 
 					            <span> {{ $thread->created_at->diffForHumans() }} </span>
