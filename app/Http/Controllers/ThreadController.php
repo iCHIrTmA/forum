@@ -55,6 +55,10 @@ class ThreadController extends Controller
 
 	public function destroy($channel, Thread $thread)
 	{
+		if ($thread->user_id != auth()->id()) {
+			abort(403);
+		}
+		
 		$thread->delete();
 		
 		return redirect('/threads');
