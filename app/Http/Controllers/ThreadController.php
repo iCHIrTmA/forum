@@ -46,6 +46,7 @@ class ThreadController extends Controller
 
 	public function show($channelId, Thread $thread)
 	{
+		// return $thread->replies;
 		return view('threads.show', [
 			'thread' => $thread,
 			'replies' => $thread->replies()->paginate(1),
@@ -54,7 +55,7 @@ class ThreadController extends Controller
 
 	public function getThreads(Channel $channel, ThreadFilters $filters)
 	{
-		$threads = Thread::latest()->filter($filters);
+		$threads = Thread::with('channel')->latest()->filter($filters);
 
 		if ($channel->exists) {
 			$threads->where('channel_id', $channel->id);
