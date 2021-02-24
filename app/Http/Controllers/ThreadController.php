@@ -53,6 +53,13 @@ class ThreadController extends Controller
 		]);
 	}
 
+	public function destroy($channel, Thread $thread)
+	{
+		$thread->delete();
+		
+		return redirect('/threads');
+	}
+
 	public function getThreads(Channel $channel, ThreadFilters $filters)
 	{
 		$threads = Thread::latest()->filter($filters);

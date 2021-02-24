@@ -21,6 +21,7 @@ Route::get('/threads/create', 'ThreadController@create')->middleware('auth');
 Route::post('/threads', 'ThreadController@store')->middleware('auth');
 Route::get('/threads/{channel}', 'ThreadController@index');
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
+Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy')->middleware('auth');
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store')->middleware('auth');
 Route::post('/replies/{reply}/favorites', 'FavoriteController@store')->middleware('auth');
 
