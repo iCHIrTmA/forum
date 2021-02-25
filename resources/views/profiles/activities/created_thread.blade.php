@@ -2,7 +2,7 @@
     <div class="card-header">
     	<div class="level">
     		<span class="flex">
-    			{{ $profileUser->name }} created a thread
+    			{{ $profileUser->name }} published <a href="{{ url($activity->subject->path()) }}">{{ $activity->subject->title }}</a>
 	        </span>
 
             <span> {{-- {{ $thread->created_at->diffForHumans() }}  --}}</span>
@@ -10,6 +10,6 @@
     </div>
 
     <div class="card-body">
-        {{-- {{ $thread->body }} --}}
+        {{ $activity->subject->body }}
     </div>
 </div>

@@ -2,7 +2,8 @@
     <div class="card-header">
     	<div class="level">
     		<span class="flex">
-    			{{ $profileUser->name }} replied to a thread
+    			{{ $profileUser->name }} replied to a 
+    			<a href="{{ url($activity->subject->thread->path())}}"> "{{ $activity->subject->thread->title }}" </a>
 	        </span>
 
             <span> {{-- {{ $thread->created_at->diffForHumans() }}  --}}</span>
@@ -10,6 +11,6 @@
     </div>
 
     <div class="card-body">
-        {{-- {{ $thread->body }} --}}
+        {{ $activity->subject->body }}
     </div>
 </div>
