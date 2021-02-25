@@ -7,6 +7,7 @@ use App\Reply;
 use App\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Carbon;
 
 class ActivityTest extends TestCase
 {
@@ -40,5 +41,25 @@ class ActivityTest extends TestCase
 
 		$this->assertEquals(2, Activity::count());
 
+	}
+
+	/** @test **/
+	public function it_fetches_an_activity_for_a_user()
+	{
+		$this->signIn();
+
+		factory(Thread::class, 2)->create(['user_id' => auth()->id()]);
+
+		auth()->user()->activity()->first()->update(['created_at' => Carbon::now()->subWeek()]);
+
+		$feed = Activity::feed(auth()->user());
+
+		$this->assertTrue($feed->keys()->contains(
+			Carbon::now()->format('Y-m-d')
+		));
+
+		$this->assertTrue($feed->keys()->contains(
+			Carbon::now()->subWeek()->format('Y-m-d')
+		));
 	}
 }
