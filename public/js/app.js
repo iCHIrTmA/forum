@@ -2019,7 +2019,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     update: function update() {
-      axios.patch('/replies/' + this.attributes.id, {
+      axios.patch('http://localhost/Laravel/forum/public/replies/' + this.attributes.id, {
         body: this.body
       });
       this.editing = false;

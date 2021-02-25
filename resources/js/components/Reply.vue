@@ -11,7 +11,7 @@
 
 		methods: {
 			update() {
-				axios.patch('/replies/' + this.attributes.id, {
+				axios.patch('http://localhost/Laravel/forum/public/replies/' + this.attributes.id, {
 					body: this.body
 				});
 
