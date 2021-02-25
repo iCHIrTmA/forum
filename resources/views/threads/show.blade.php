@@ -7,12 +7,12 @@
             <div class="card">
                 <div class="card-header">
                     <div class="level">
-                        <span class="flex">
+                        <h5 class="flex">
                             <a href="{{ url('profiles/' . $thread->creator->name) }}"> 
                                 {{ $thread->creator->name }} 
                             </a> posted
                             {{ $thread->title }}
-                        </span>
+                        </h5>
 
                         @can('update', $thread)   
                             <form action="{{ url($thread->path()) }}" method="POST">
