@@ -6,6 +6,7 @@ use App\Channel;
 use App\Reply;
 use App\Thread;
 use App\User;
+use App\Activity;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -89,8 +90,7 @@ class CreateThreadsTest extends TestCase
 
         $this->delete($thread->path());
 
-        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
-        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertEquals(0, Activity::count());
     }
 
     // /** @test **/
