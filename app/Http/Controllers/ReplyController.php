@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class ReplyController extends Controller
 {
-
 	public function store($channelId, Thread $thread)
 	{
 		$this->validate(request(),[
@@ -22,6 +21,13 @@ class ReplyController extends Controller
 
 		return back()
 			->with('flash', 'Your reply is submitted');
+	}
+
+	public function update(Reply $reply)
+	{
+		$this->authorize('update', $reply);
+				
+		$reply->update(request(['body']));
 	}
 
 	public function destroy(Reply $reply)

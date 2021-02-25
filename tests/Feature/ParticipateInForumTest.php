@@ -74,4 +74,34 @@ class ParticipateInForum extends TestCase
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
     }
+
+    /** @test **/
+    public function authorized_users_can_update_replies()
+    {
+        $this->signIn();
+
+        $reply = factory(Reply::class)->create(['user_id' => auth()->id()]);
+
+        $updatedReply = 'You been changed fool.';
+        $this->patch("replies/{$reply->id}", ['body' => $updatedReply]);
+
+        $this->assertDatabaseHas('replies', [
+            'id' => $reply->id,
+            'body' => $updatedReply,
+        ]);
+    }
+
+    /** @test **/
+    public function unauthorized_users_cannot_update_replies()
+    {
+        $reply = factory(Reply::class)->create();
+
+        $this->patch("/replies/{$reply->id}")
+            ->assertRedirect('login');
+
+        $this->signIn();
+
+        $this->patch("/replies/{$reply->id}")
+            ->assertStatus(403);
+    }
 }
