@@ -8,13 +8,14 @@
 		        </h5>
 
 		        <div>
-		        	<form method="POST" action="{{url('/replies/' . $reply->id . '/favorites')}}">
+		        	<favorite :reply="{{ $reply }}"></favorite>
+{{-- 		        	<form method="POST" action="{{url('/replies/' . $reply->id . '/favorites')}}">
 		        		@csrf
 		        		@method('POST')
 		        		<button type="submit" class="btn btn-default" {{ $reply->isFavorited() ? 'disabled' : '' }}>
 		        			{{ $reply->favorites_count }} {{ Str::plural('Favorite', $reply->favorites_count) }}
 		        		</button>
-		        	</form>
+		        	</form> --}}
 		        </div>
 	    	</div>
 	    </div>
