@@ -1967,23 +1967,30 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       favoritesCount: this.reply.favoritesCount,
-      isFavorited: false
+      isFavorited: this.reply.isFavorited
     };
   },
   computed: {
     classes: function classes() {
       return ['btn', this.isFavorited ? 'btn-primary' : 'btn-default'];
+    },
+    endpoint: function endpoint() {
+      return 'http://localhost/Laravel/forum/public/replies/' + this.reply.id + '/favorites';
     }
   },
   methods: {
     toggle: function toggle() {
-      if (this.isFavorited) {
-        axios["delete"]('http://localhost/Laravel/forum/public/replies/' + this.reply.id + '/favorites');
-      } else {
-        axios.post('http://localhost/Laravel/forum/public/replies/' + this.reply.id + '/favorites');
-        this.isFavorited = true;
-        this.favoritesCount++;
-      }
+      this.isFavorited ? this.destroy() : this.create();
+    },
+    create: function create() {
+      axios.post(this.endpoint);
+      this.isFavorited = true;
+      this.favoritesCount++;
+    },
+    destroy: function destroy() {
+      axios["delete"](this.endpoint);
+      this.isFavorited = false;
+      this.favoritesCount--;
     }
   }
 });

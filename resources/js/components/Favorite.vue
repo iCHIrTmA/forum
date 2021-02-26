@@ -8,28 +8,39 @@
 <script>
 	export default {
 		props: ['reply'],
+
 		data() {
 			return {
 				favoritesCount: this.reply.favoritesCount,
-				isFavorited: false,
+				isFavorited: this.reply.isFavorited,
 			}
 		},
 
 		computed: {
 			classes() {
 				return ['btn', this.isFavorited ? 'btn-primary' : 'btn-default'];
+			},
+
+			endpoint() {
+				return 'http://localhost/Laravel/forum/public/replies/' + this.reply.id + '/favorites';
 			}
 		},
 
 		methods: {
 			toggle() {
-				if (this.isFavorited) {
-					axios.delete('http://localhost/Laravel/forum/public/replies/' + this.reply.id + '/favorites');
-				} else {
-					axios.post('http://localhost/Laravel/forum/public/replies/' + this.reply.id + '/favorites');
-					this.isFavorited = true;
-					this.favoritesCount++;
-				}
+				this.isFavorited ? this.destroy() : this.create();
+			},
+
+			create() {
+				axios.post(this.endpoint);
+				this.isFavorited = true;
+				this.favoritesCount++;			
+			},
+
+			destroy() {
+				axios.delete(this.endpoint);
+				this.isFavorited = false;
+				this.favoritesCount--;
 			}
 		}
 	}

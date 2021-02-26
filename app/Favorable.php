@@ -26,10 +26,15 @@ trait Favorable
 
 		$this->favorites()->where($attributes)->delete();
 	}
-	
+
 	public function isFavorited()
 	{
 		return $this->favorites->where('user_id', auth()->id())->count();
+	}
+
+	public function getIsFavoritedAttribute()
+	{
+		return $this->isFavorited();
 	}
 
 	public function getFavoritesCountAttribute()
