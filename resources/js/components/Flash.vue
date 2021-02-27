@@ -18,6 +18,7 @@
         },
 
         created() {
+            window.events = new Vue();
             if (this.message) {
                 this.flash(this.message);
             }

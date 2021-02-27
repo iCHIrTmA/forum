@@ -14,10 +14,12 @@ class ReplyController extends Controller
 			'body' => 'required',
 		]);
 
-		return $reply = $thread->addReply([
+		$reply = $thread->addReply([
 			'body' => request('body'),
 			'user_id' => auth()->id()
 		]);
+
+		return $reply->load('owner');
 
 		// if (request()->expectsJson()) {
 		// 	return $reply;

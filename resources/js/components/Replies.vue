@@ -29,9 +29,9 @@
 			},
 
 			remove(index) {
-				this.items.splice(index, 1);
+				// this.items.splice(index, 1);
 
-				this.$emit('removed');
+				// this.$emit('removed');
 
 				flash('Reply was deleted');
 			}

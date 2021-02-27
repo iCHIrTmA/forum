@@ -37,8 +37,6 @@
 						flash('Your reply has been submitted');
 
 						this.$emit('created', data);
-
-						alert('hello');
 					});
 			}			
 		}
