@@ -2083,6 +2083,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     remove: function remove(index) {
       this.items.splice(index, 1);
+      this.$emit('removed');
       flash('Reply was deleted');
     }
   }
@@ -2139,7 +2140,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
@@ -2152,6 +2152,18 @@ __webpack_require__.r(__webpack_exports__);
       id: this.data.id,
       body: this.data.body
     };
+  },
+  computed: {
+    signedIn: function signedIn() {
+      return window.App.signedIn;
+    },
+    canUpdate: function canUpdate() {
+      var _this = this;
+
+      return this.authorize(function (user) {
+        return _this.data.user_id == user.id;
+      }); // return this.data.user_id == window.App.user.id;
+    }
   },
   methods: {
     update: function update() {
@@ -38579,7 +38591,11 @@ var render = function() {
             domProps: { textContent: _vm._s(_vm.data.owner.name) }
           }),
           _vm._v(" said " + _vm._s(_vm.data.created_at) + "...\n\t        ")
-        ])
+        ]),
+        _vm._v(" "),
+        _vm.signedIn
+          ? _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
+          : _vm._e()
       ])
     ]),
     _vm._v(" "),
@@ -38634,29 +38650,31 @@ var render = function() {
         : _c("div", { domProps: { textContent: _vm._s(_vm.body) } })
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "card-footer level" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-xs btn-outline-secondary mr-1",
-          on: {
-            click: function($event) {
-              _vm.editing = true
-            }
-          }
-        },
-        [_vm._v("Edit")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-xs btn-danger mr-1",
-          on: { click: _vm.destroy }
-        },
-        [_vm._v("Delete")]
-      )
-    ])
+    _vm.canUpdate
+      ? _c("div", { staticClass: "card-footer level" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-xs btn-outline-secondary mr-1",
+              on: {
+                click: function($event) {
+                  _vm.editing = true
+                }
+              }
+            },
+            [_vm._v("Edit")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-xs btn-danger mr-1",
+              on: { click: _vm.destroy }
+            },
+            [_vm._v("Delete")]
+          )
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -50843,6 +50861,11 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
+window.Vue.prototype.authorize = function (handler) {
+  var user = window.App.user;
+  return user ? handler(user) : false;
+};
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -50852,6 +50875,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  */
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
 
 Vue.component('flash', __webpack_require__(/*! ./components/Flash.vue */ "./resources/js/components/Flash.vue")["default"]);
 Vue.component('thread-view', __webpack_require__(/*! ./pages/Thread.vue */ "./resources/js/pages/Thread.vue")["default"]);
