@@ -24,6 +24,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/threads?popular=1')}}">Popular Threads</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/threads?unanswered=1')}}">Unanswered Threads</a>
+                        </li>
                      </div>
                 </div>
 
