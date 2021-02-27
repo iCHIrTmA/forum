@@ -30,12 +30,7 @@
                     </div>
                 </div>
 
-                <replies :data="{{ $thread->replies }}" 
-                    @added="repliesCount++"
-                    @removed="repliesCount--">                    
-                </replies>
-
-                {{-- {{ $replies->links() }} --}}
+                <replies @added="repliesCount++" @removed="repliesCount--"></replies>
     
 {{--                 @auth
                     <form method="POST" action="{{ url($thread->path() . '/replies') }}">

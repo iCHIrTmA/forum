@@ -71,7 +71,7 @@ class ThreadsTest extends TestCase
             ->assertDontSee($threadNotByJohn->title);
     } 
 
-        /** @test **/
+    /** @test **/
     public function a_user_can_filter_threads_by_popularity()
     {
         $threadWithTwoReplies = factory(Thread::class)->create();
@@ -86,4 +86,16 @@ class ThreadsTest extends TestCase
 
         $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
     }   
+
+    /** @test **/
+    public function a_user_can_request_all_replies_from_a_thread()
+    {
+        $thread = factory(Thread::class)->create();
+
+        factory(Reply::class, 2)->create(['thread_id' => $thread->id]);
+
+        $response = $this->getJson($thread->path() . '/replies')->json();
+
+        $this->assertEquals(2, $response['total']);
+    }
 }

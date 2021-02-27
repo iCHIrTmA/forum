@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-for="(reply, index) in items">
+		<div v-for="(reply, index) in items" :key="reply.id">
 			<reply :data="reply" @deleted="remove(index)"></reply>
 		</div>
 
@@ -11,33 +11,38 @@
 <script>
 	import Reply from './Reply.vue';
 	import NewReply from './NewReply.vue';
+	import collection from '../mixins/Collection.js';
 
 	export default {
-		props: ['data'],
-
 		components: { Reply, NewReply },
+
+		mixins: [collection],
 
 		data() {
 			return {
-				items: this.data,
+				dataSet: false,
 				endpoint: location.pathname + '/replies',
 			}
 		},
 
-		methods: {
-			add(reply) {
-				this.items.push(reply);
+		created() {
+			this.fetch();
+		},
 
-				this.$emit('added');
+		methods: {
+			fetch() {
+				axios.get(this.url())
+					.then(this.refresh);
 			},
 
-			remove(index) {
-				// this.items.splice(index, 1);
+			url() {
+				return `${location.pathname}/replies`;
+			},
 
-				this.$emit('removed');
-
-				flash('Reply was deleted');
-			}
+			refresh({data}) {
+				this.dataSet = data;
+				this.items = data.data;
+			},
 		}
 	}
 </script>
