@@ -4,9 +4,9 @@
 			<reply :data="reply" @deleted="remove(index)"></reply>
 		</div>
 
-		<paginator :dataSet="dataSet" @updated="fetch"></paginator>
+		<paginator :dataSet="dataSet" @changed="fetch"></paginator>
 
-		<new-reply :endpoint="endpoint" @created="add"></new-reply>
+		<new-reply @created="add"></new-reply>
 	</div>
 </template>
 
@@ -23,7 +23,6 @@
 		data() {
 			return {
 				dataSet: false,
-				endpoint: location.pathname + '/replies',
 			}
 		},
 

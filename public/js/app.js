@@ -2088,7 +2088,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['endpoint'],
   data: function data() {
     return {
       body: ''
@@ -2103,7 +2102,7 @@ __webpack_require__.r(__webpack_exports__);
     addReply: function addReply() {
       var _this = this;
 
-      axios.post(this.endpoint, {
+      axios.post(location.pathname + '/replies', {
         body: this.body
       }).then(function (_ref) {
         var data = _ref.data;
@@ -2168,8 +2167,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     broadcast: function broadcast() {
-      this.$emit('updated', this.page);
-      return this;
+      return this.$emit('changed', this.page);
     },
     updateUrl: function updateUrl() {
       history.pushState(null, null, '?page=' + this.page);
@@ -2214,8 +2212,7 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_mixins_Collection_js__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
     return {
-      dataSet: false,
-      endpoint: location.pathname + '/replies'
+      dataSet: false
     };
   },
   created: function created() {
@@ -2310,7 +2307,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     ago: function ago() {
-      return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.create_at).fromNow() + '...';
+      return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.created_at).fromNow() + '...';
     },
     signedIn: function signedIn() {
       return window.App.signedIn;
@@ -60448,13 +60445,10 @@ var render = function() {
       _vm._v(" "),
       _c("paginator", {
         attrs: { dataSet: _vm.dataSet },
-        on: { updated: _vm.fetch }
+        on: { changed: _vm.fetch }
       }),
       _vm._v(" "),
-      _c("new-reply", {
-        attrs: { endpoint: _vm.endpoint },
-        on: { created: _vm.add }
-      })
+      _c("new-reply", { on: { created: _vm.add } })
     ],
     2
   )
