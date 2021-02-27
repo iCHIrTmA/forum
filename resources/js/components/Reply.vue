@@ -76,7 +76,7 @@
 			destroy() {
 				axios.delete('http://localhost/Laravel/forum/public/replies/' + this.data.id);
 
-				// this.$emit('deleted', this.data.id);
+				this.$emit('deleted', this.data.id);
 
 				$(this.$el).fadeOut(300);
 			}

@@ -2083,12 +2083,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['endpoint'],
   data: function data() {
     return {
-      body: '',
-      endpoint: 'http://localhost/Laravel/forum/public/threads/voluptatem/24/replies'
+      body: ''
     };
+  },
+  computed: {
+    signedIn: function signedIn() {
+      return window.App.signedIn;
+    }
   },
   methods: {
     addReply: function addReply() {
@@ -2140,16 +2149,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      items: this.data
+      items: this.data,
+      endpoint: location.pathname + '/replies'
     };
   },
   methods: {
     add: function add(reply) {
       this.items.push(reply);
+      this.$emit('added');
     },
     remove: function remove(index) {
       // this.items.splice(index, 1);
-      // this.$emit('removed');
+      this.$emit('removed');
       flash('Reply was deleted');
     }
   }
@@ -2239,8 +2250,8 @@ __webpack_require__.r(__webpack_exports__);
       this.editing = false;
     },
     destroy: function destroy() {
-      axios["delete"]('http://localhost/Laravel/forum/public/replies/' + this.data.id); // this.$emit('deleted', this.data.id);
-
+      axios["delete"]('http://localhost/Laravel/forum/public/replies/' + this.data.id);
+      this.$emit('deleted', this.data.id);
       $(this.$el).fadeOut(300);
     }
   }
@@ -38603,45 +38614,53 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "form-group" }, [
-      _c("textarea", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.body,
-            expression: "body"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          name: "body",
-          id: "body",
-          placeholder: "Have something to say?",
-          rows: "5",
-          required: ""
-        },
-        domProps: { value: _vm.body },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.body = $event.target.value
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-primary",
-        attrs: { type: "submit" },
-        on: { click: _vm.addReply }
-      },
-      [_vm._v("Post")]
-    )
+    _vm.signedIn
+      ? _c("div", [
+          _c("div", { staticClass: "form-group" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.body,
+                  expression: "body"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                name: "body",
+                id: "body",
+                placeholder: "Have something to say?",
+                rows: "5",
+                required: ""
+              },
+              domProps: { value: _vm.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.body = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { type: "submit" },
+              on: { click: _vm.addReply }
+            },
+            [_vm._v("Post")]
+          )
+        ])
+      : _c("p", { staticClass: "text-center" }, [
+          _vm._v("\n\t\t\tPlease "),
+          _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
+          _vm._v(" to participate in this discussion\n\t\t")
+        ])
   ])
 }
 var staticRenderFns = []
@@ -38686,7 +38705,10 @@ var render = function() {
         )
       }),
       _vm._v(" "),
-      _c("new-reply", { on: { created: _vm.add } })
+      _c("new-reply", {
+        attrs: { endpoint: _vm.endpoint },
+        on: { created: _vm.add }
+      })
     ],
     2
   )
@@ -51235,14 +51257,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************!*\
   !*** ./resources/js/components/NewReply.vue ***!
   \**********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NewReply_vue_vue_type_template_id_127aed95___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewReply.vue?vue&type=template&id=127aed95& */ "./resources/js/components/NewReply.vue?vue&type=template&id=127aed95&");
 /* harmony import */ var _NewReply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewReply.vue?vue&type=script&lang=js& */ "./resources/js/components/NewReply.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _NewReply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _NewReply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -51272,7 +51295,7 @@ component.options.__file = "resources/js/components/NewReply.vue"
 /*!***********************************************************************!*\
   !*** ./resources/js/components/NewReply.vue?vue&type=script&lang=js& ***!
   \***********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

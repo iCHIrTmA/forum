@@ -4,7 +4,7 @@
 			<reply :data="reply" @deleted="remove(index)"></reply>
 		</div>
 
-		<new-reply @created="add"></new-reply>
+		<new-reply :endpoint="endpoint" @created="add"></new-reply>
 	</div>
 </template>
 
@@ -19,19 +19,22 @@
 
 		data() {
 			return {
-				items: this.data
+				items: this.data,
+				endpoint: location.pathname + '/replies',
 			}
 		},
 
 		methods: {
 			add(reply) {
 				this.items.push(reply);
+
+				this.$emit('added');
 			},
 
 			remove(index) {
 				// this.items.splice(index, 1);
 
-				// this.$emit('removed');
+				this.$emit('removed');
 
 				flash('Reply was deleted');
 			}
