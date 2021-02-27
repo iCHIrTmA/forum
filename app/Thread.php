@@ -6,6 +6,7 @@ use App\Activity;
 use App\Channel;
 use App\RecordsActivity;
 use App\Reply;
+use App\ThreadSubscription;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -62,5 +63,24 @@ class Thread extends Model
     public function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
+    }
+
+    public function subscribe($userId = null)
+    {
+        $this->subscriptions()->create([
+            'user_id' => $userId ?: auth()->id()
+        ]);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(ThreadSubscription::class);
+    }
+
+    public function unsubscribe($userId = null)
+    {
+        $this->subscriptions()
+            ->where('user_id', $userId ?: auth()->id())
+            ->delete();
     }
 }
