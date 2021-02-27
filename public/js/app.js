@@ -2158,7 +2158,7 @@ __webpack_require__.r(__webpack_exports__);
       this.nextUrl = this.dataSet.next_page_url;
     },
     page: function page() {
-      this.broadcast();
+      this.broadcast().updateUrl();
     }
   },
   computed: {
@@ -2169,6 +2169,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     broadcast: function broadcast() {
       this.$emit('updated', this.page);
+      return this;
+    },
+    updateUrl: function updateUrl() {
+      history.pushState(null, null, '?page=' + this.page);
     }
   }
 });
@@ -2221,9 +2225,13 @@ __webpack_require__.r(__webpack_exports__);
     fetch: function fetch(page) {
       axios.get(this.url(page)).then(this.refresh);
     },
-    url: function url() {
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      return "".concat(location.pathname, "/replies?page=") + page;
+    url: function url(page) {
+      if (!page) {
+        var query = location.search.match(/page=(\d+)/);
+        page = query ? query[1] : 1;
+      }
+
+      return "".concat(location.pathname, "/replies?page=").concat(page);
     },
     refresh: function refresh(_ref) {
       var data = _ref.data;
