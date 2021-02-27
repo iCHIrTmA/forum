@@ -34,7 +34,7 @@
 
                 {{-- {{ $replies->links() }} --}}
     
-                @auth
+{{--                 @auth
                     <form method="POST" action="{{ url($thread->path() . '/replies') }}">
                         @csrf
                         @method('POST')
@@ -47,7 +47,7 @@
                     </form>
                 @else
                     <p class="text-center">Please <a href="{{ url('login')}}">sign in</a> to participate in this discussion</p>
-                @endauth
+                @endauth --}}
             </div>
 
             <div class="col-md-4">
