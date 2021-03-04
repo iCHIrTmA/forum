@@ -4,6 +4,7 @@ namespace App;
 
 use App\Activity;
 use App\Channel;
+use App\Notifications\ThreadWasUpdated;
 use App\RecordsActivity;
 use App\Reply;
 use App\ThreadSubscription;
@@ -58,7 +59,13 @@ class Thread extends Model
 
     public function addReply($reply)
     {
-    	return $this->replies()->create($reply);
+    	$reply = $this->replies()->create($reply);
+
+        foreach($this->subscriptions as $subscription) {
+            $subscription->user->notify(new ThreadWasUpdated($this, $reply));
+        }
+
+        return $reply;
     }
 
     public function scopeFilter($query, $filters)
