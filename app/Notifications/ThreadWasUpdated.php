@@ -58,7 +58,7 @@ class ThreadWasUpdated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Temporary placeholder',
+            'message' => 'Temporary placeholder.',
         ];
     }
 }
