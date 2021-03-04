@@ -35,4 +35,28 @@ class NotificationsTest extends TestCase
 
         $this->assertCount(1, auth()->user()->fresh()->notifications);
     }
+
+    /** @test **/
+    public function a_user_can_clear_a_notification()
+    {
+        $this->withoutExceptionHandling();
+        $this->signIn();
+
+        $thread = factory(Thread::class)->create()->subscribe();
+
+        $thread->addReply([
+            'user_id' => factory(User::class)->create(),
+            'body' => 'Some reply here',
+        ]);
+
+        $this->assertCount(1, auth()->user()->unreadNotifications);
+
+        $user = auth()->user();
+
+        $notificationId = $user->unreadNotifications->first()->id;
+
+        $this->delete("/profiles/{$user->name}/notifications/{$notificationId}");
+
+        $this->assertCount(0, $user->fresh()->unreadNotifications);
+    }
 }
