@@ -16,6 +16,7 @@ class Thread extends Model
 
 	protected $guarded = [];
     protected $with = ['creator', 'channel'];
+    protected $appends = ['isSubscribedTo'];
 
     protected static function boot()
     {
@@ -82,5 +83,12 @@ class Thread extends Model
         $this->subscriptions()
             ->where('user_id', $userId ?: auth()->id())
             ->delete();
+    }
+
+    public function getIsSubscribedToAttribute()
+    {
+        return $this->subscriptions()
+            ->where('user_id', auth()->id())
+            ->exists();
     }
 }

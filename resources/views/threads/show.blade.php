@@ -30,22 +30,7 @@
                     </div>
                 </div>
 
-                <replies @added="repliesCount++" @removed="repliesCount--"></replies>
-    
-{{--                 @auth
-                    <form method="POST" action="{{ url($thread->path() . '/replies') }}">
-                        @csrf
-                        @method('POST')
-                        <div class="form-group">
-                            <textarea name="body" id="body" class="form-control" placeholder="Have something to say?" rows="5">                        
-                            </textarea>
-
-                            <button type="submit" class="btn btn-primary">Post</button>
-                        </div>
-                    </form>
-                @else
-                    <p class="text-center">Please <a href="{{ url('login')}}">sign in</a> to participate in this discussion</p>
-                @endauth --}}
+                <replies @added="repliesCount++" @removed="repliesCount--"></replies>                
             </div>
 
             <div class="col-md-4">
@@ -55,6 +40,10 @@
                             This thread was published{{ $thread->created_at->diffForHumans() }} by 
                             <a href="#">{{ $thread->creator->name }}</a>, and currently has <span v-text="repliesCount"></span>
                             {{ Str::plural('comment', $thread->replies_count) }}.
+                        </p>
+
+                        <p>
+                            <subscribe-button :active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"></subscribe-button>
                         </p>
                     </div>
                 </div>                    

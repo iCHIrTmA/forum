@@ -27,6 +27,7 @@ Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store')->mid
 Route::patch('/replies/{reply}', 'ReplyController@update')->middleware('auth');
 Route::delete('/replies/{reply}', 'ReplyController@destroy')->middleware('auth');
 Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@store')->middleware('auth');;
+Route::delete('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@destroy')->middleware('auth');;
 
 Route::post('/replies/{reply}/favorites', 'FavoriteController@store')->middleware('auth');
 Route::delete('/replies/{reply}/favorites', 'FavoriteController@destroy')->middleware('auth');
