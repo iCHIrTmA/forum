@@ -5,6 +5,7 @@ namespace App;
 use App\Activity;
 use App\Channel;
 use App\Notifications\ThreadWasUpdated;
+use App\Providers\ThreadHasNewReply;
 use App\RecordsActivity;
 use App\Reply;
 use App\ThreadSubscription;
@@ -42,11 +43,6 @@ class Thread extends Model
     	return $this->hasMany(Reply::class);
     }
 
-    // public function getReplyCountAttribute()
-    // {
-    //     return $this->replies()->count();
-    // }
-
     public function creator()
     {
     	return $this->belongsTo(User::class, 'user_id');
@@ -61,11 +57,17 @@ class Thread extends Model
     {
     	$reply = $this->replies()->create($reply);
 
-        $this->subscriptions->filter(function ($sub) use ($reply) {
-            return $sub->user_id != $reply->user_id;
-        })->each->notify($reply);
+        $this->notifySubscribers($reply);
 
         return $reply;
+    }
+
+    public function notifySubscribers($reply)
+    {
+        $this->subscriptions
+            ->where('user_id', '!=', $reply->user_id)
+            ->each
+            ->notify($reply);        
     }
 
     public function scopeFilter($query, $filters)
