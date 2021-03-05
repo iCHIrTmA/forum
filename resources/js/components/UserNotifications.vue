@@ -7,7 +7,7 @@
         <div class="dropdown-menu">
      		<li v-for="notification in notifications">
                 <a class="dropdown-item" 
-                href="http://localhost/Laravel/forum/public/"
+                :href="'http://localhost/Laravel/forum/public' + notification.data.link"
                 v-text="notification.data.message"
                 @click="markAsRead(notification)"></a>
             </li>
@@ -29,7 +29,7 @@
 
 		methods: {
 			markAsRead(notification) {
-				axios.delete("http://localhost/Laravel/forum/public/profiles/" + window.App.user.name + "/notifications/" + notification.id)
+				axios.delete("http://localhost/Laravel/forum/public/profiles/" + window.app.user.name + "/notifications/" + notification.id)
 			},
 		}
 	}
