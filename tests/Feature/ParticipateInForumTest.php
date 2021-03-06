@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Reply;
 use App\Thread;
 use App\User;
+use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -104,5 +105,22 @@ class ParticipateInForum extends TestCase
 
         $this->patch("/replies/{$reply->id}")
             ->assertStatus(403);
+    }
+
+    /** @test **/
+    public function spam_replies_may_not_be_stored()
+    {
+        $this->withoutExceptionHandling();
+        $this->signIn();
+
+        $thread = factory(Thread::class)->create();
+        $reply = factory(Reply::class)->make([
+            'body' => 'A spam'
+        ]);
+
+        $this->expectException(\Exception::class);
+
+        $this->post($thread->path() . '/replies', $reply->toArray());
+
     }
 }
