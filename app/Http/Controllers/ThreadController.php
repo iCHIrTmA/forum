@@ -48,9 +48,9 @@ class ThreadController extends Controller
 
 	public function show($channelId, Thread $thread)
 	{
-        $key = sprintf("users.%s.visits.%s", auth()->id(), $thread->id);
-
-        cache()->forever($key, Carbon::now());
+		if (auth()->check()) {
+			auth()->user()->read($thread);
+		}
 
 		return view('threads.show', [
 			'thread' => $thread,
