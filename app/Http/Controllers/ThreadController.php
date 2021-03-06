@@ -6,6 +6,7 @@ use App\Filters\ThreadFilters;
 use App\Channel;
 use App\Thread;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller
@@ -47,11 +48,12 @@ class ThreadController extends Controller
 
 	public function show($channelId, Thread $thread)
 	{
-		// dd($thread->isSubscribedTo);
-		// return $thread;
+        $key = sprintf("users.%s.visits.%s", auth()->id(), $thread->id);
+
+        cache()->forever($key, Carbon::now());
+
 		return view('threads.show', [
 			'thread' => $thread,
-			// 'replies' => $thread->replies()->paginate(20),
 		]);
 	}
 
