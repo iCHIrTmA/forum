@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\ThreadFilters;
 use App\Channel;
+use App\Filters\ThreadFilters;
+use App\Inspections\Spam;
 use App\Thread;
 use App\User;
 use Carbon\Carbon;
@@ -29,11 +30,7 @@ class ThreadController extends Controller
 
 	public function store(Request $request)
 	{
-		$this->validate($request,[
-			'title' => 'required',
-			'body' => 'required',
-			'channel_id' => 'required|exists:channels,id',
-		]);
+		$this->validateReply($request);
 
 		$thread = Thread::create([
 			'user_id' => auth()->id(),
@@ -80,5 +77,16 @@ class ThreadController extends Controller
 		// dd($threads->toSql());
 
 		return $threads->get();		
+	}
+
+	public function validateReply(Request $request)
+	{
+		$this->validate($request,[
+			'title' => 'required',
+			'body' => 'required',
+			'channel_id' => 'required|exists:channels,id',
+		]);
+
+		resolve(Spam::class)->detect(request('body'));		
 	}
 }
