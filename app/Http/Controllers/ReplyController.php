@@ -16,12 +16,16 @@ class ReplyController extends Controller
 
 	public function store($channelId, Thread $thread)
 	{
-		$this->validateReply();
+		try {
+			$this->validateReply();
 
-		$reply = $thread->addReply([
-			'body' => request('body'),
-			'user_id' => auth()->id()
-		]);
+			$reply = $thread->addReply([
+				'body' => request('body'),
+				'user_id' => auth()->id()
+			]);
+		} catch (\Exception $e){
+			return response('Sorry your reply could not be saved', 422);
+		}
 
 		return $reply->load('owner');
 
@@ -29,17 +33,21 @@ class ReplyController extends Controller
 		// 	return $reply;
 		// }
 
-		return back()
-			->with('flash', 'Your reply is submitted');
+		// return back()
+		// 	->with('flash', 'Your reply is submitted');
 	}
 
 	public function update(Reply $reply)
 	{
 		$this->authorize('update', $reply);
 
-		$this->validateReply();
+		try {
+			$this->validateReply();
 				
-		$reply->update(request(['body']));
+			$reply->update(request(['body']));			
+		} catch (\Exception $e) {
+			return response('Sorry your reply could not be saved', 422);			
+		}
 	}
 
 	public function destroy(Reply $reply)
