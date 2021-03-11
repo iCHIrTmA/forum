@@ -46,8 +46,10 @@ class ParticipateInForum extends TestCase
 
         $reply = factory(Reply::class)->make(['body' => null]);
 
+        // $this->expectException(\Exception::class);
+
         $this->post($thread->path() . '/replies', $reply->toArray())
-            ->assertSessionHasErrors('body');
+            ->assertStatus(422);
     }
 
     /** @test **/
@@ -118,9 +120,9 @@ class ParticipateInForum extends TestCase
             'body' => 'A spam'
         ]);
 
-        $this->expectException(\Exception::class);
+        // $this->expectException(\Exception::class);
 
-        $this->post($thread->path() . '/replies', $reply->toArray());
-
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(422);
     }
 }
