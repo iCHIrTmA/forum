@@ -40,6 +40,7 @@ class ParticipateInForum extends TestCase
     /** @test **/
     public function a_reply_requires_a_body()
     {
+        // $this->withoutExceptionHandling();
         $this->signIn();
 
         $thread = factory(Thread::class)->create();
@@ -48,7 +49,7 @@ class ParticipateInForum extends TestCase
 
         // $this->expectException(\Exception::class);
 
-        $this->post($thread->path() . '/replies', $reply->toArray())
+        $this->json('POST',$thread->path() . '/replies', $reply->toArray())
             ->assertStatus(422);
     }
 
@@ -112,7 +113,7 @@ class ParticipateInForum extends TestCase
     /** @test **/
     public function spam_replies_may_not_be_stored()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $this->signIn();
 
         $thread = factory(Thread::class)->create();
@@ -122,7 +123,7 @@ class ParticipateInForum extends TestCase
 
         // $this->expectException(\Exception::class);
 
-        $this->post($thread->path() . '/replies', $reply->toArray())
+        $this->json('POST', $thread->path() . '/replies', $reply->toArray())
             ->assertStatus(422);
     }
 
@@ -139,6 +140,6 @@ class ParticipateInForum extends TestCase
             ->assertStatus(200);
 
         $this->post($thread->path() . '/replies', $reply->toArray())
-            ->assertStatus(422);
+            ->assertStatus(429);
     }
 }

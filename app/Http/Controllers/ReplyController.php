@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePostForm;
 use App\Reply;
 use App\Rules\SpamFree;
 use App\Thread;
@@ -15,21 +16,13 @@ class ReplyController extends Controller
 		return $thread->replies()->paginate(20);
 	}
 
-	public function store($channelId, Thread $thread)
+	public function store($channelId, Thread $thread, CreatePostForm $form)
 	{
 		if (Gate::denies('create', new Reply)) {
-			return response('Slow down :)', 422);
+			return response('Slow down :)', 429);
 		}
 
 		try {
-			$this->authorize('create', new Reply);
-			request()->validate([
-				'body' => ['required', new Spamfree],
-			]); // laravel 5.5 +
-			// $this->validate(request(), [
-			// 	'body' => ['required', new Spamfree],
-			// ]);
-
 			$reply = $thread->addReply([
 				'body' => request('body'),
 				'user_id' => auth()->id()
