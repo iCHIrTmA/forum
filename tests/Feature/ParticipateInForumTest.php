@@ -136,10 +136,13 @@ class ParticipateInForum extends TestCase
 
         $reply = factory(Reply::class)->make(['body' => 'simple reply']);
 
-        $this->post($thread->path() . '/replies', $reply->toArray())
+        $this->json('POST', $thread->path() . '/replies', $reply->toArray())
             ->assertStatus(201);
 
-        $this->post($thread->path() . '/replies', $reply->toArray())
+        $this->json('POST', $thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(429);
+
+        $this->json('POST', $thread->path() . '/replies', $reply->toArray())
             ->assertStatus(429);
     }
 }
