@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
-use App\Thread;
 use App\Rules\SpamFree;
+use App\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ReplyController extends Controller
 {
@@ -16,7 +17,12 @@ class ReplyController extends Controller
 
 	public function store($channelId, Thread $thread)
 	{
+		if (Gate::denies('create', new Reply)) {
+			return response('Slow down :)', 422);
+		}
+
 		try {
+			$this->authorize('create', new Reply);
 			request()->validate([
 				'body' => ['required', new Spamfree],
 			]); // laravel 5.5 +
@@ -31,15 +37,6 @@ class ReplyController extends Controller
 		} catch (\Exception $e){
 			return response('Sorry your reply could not be saved', 422);
 		}
-
-
-		// if (request()->expectsJson()) {
-		// 	return $reply;
-		}
-		return $reply->load('owner');
-
-		// return back()
-		// 	->with('flash', 'Your reply is submitted');
 	}
 
 	public function update(Reply $reply)
