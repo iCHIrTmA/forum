@@ -57,11 +57,11 @@ class Handler extends ExceptionHandler
             }
         }
 
-        // if($exception instanceof ThrottleRequestsException) {
-        //     if($request->expectsJson()) {
-        //         return response('You are posting too frequently. Please take a break. :)', 429);
-        //     }
-        // }
+        if($exception instanceof ThrottleRequestsException) {
+            if($request->expectsJson()) {
+                return response('You are posting too frequently. Please take a break. :)', 429);
+            }
+        }
         
         return parent::render($request, $exception);
     }

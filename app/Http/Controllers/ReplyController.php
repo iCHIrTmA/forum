@@ -18,18 +18,10 @@ class ReplyController extends Controller
 
 	public function store($channelId, Thread $thread, CreatePostForm $form)
 	{
-		if (Gate::denies('create', new Reply)) {
-			return response('Slow down :)', 429);
-		}
-
-		try {
-			$reply = $thread->addReply([
-				'body' => request('body'),
-				'user_id' => auth()->id()
-			]);
-		} catch (\Exception $e){
-			return response('Sorry your reply could not be saved', 422);
-		}
+		return $thread->addReply([
+			'body' => request('body'),
+			'user_id' => auth()->id()
+		])->load('owner');
 	}
 
 	public function update(Reply $reply)

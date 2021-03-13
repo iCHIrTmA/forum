@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Exceptions\ThrottleRequestsException;
 use App\Reply;
 use App\Rules\SpamFree;
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,6 +18,11 @@ class CreatePostForm extends FormRequest
     public function authorize()
     {
         return Gate::allows('create', new Reply);
+    }
+
+    public function failedAuthorization()
+    {
+        throw new ThrottleRequestsException('You are replying too frequently');
     }
 
     /**
