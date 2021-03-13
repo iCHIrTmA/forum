@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePostForm;
+use App\Http\Requests\CreatePostRequest;
 use App\Reply;
 use App\Rules\SpamFree;
 use App\Thread;
@@ -16,7 +16,7 @@ class ReplyController extends Controller
 		return $thread->replies()->paginate(20);
 	}
 
-	public function store($channelId, Thread $thread, CreatePostForm $form)
+	public function store($channelId, Thread $thread, CreatePostRequest $form)
 	{
 		return $thread->addReply([
 			'body' => request('body'),

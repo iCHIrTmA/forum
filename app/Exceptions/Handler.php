@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\ThrottleRequestsException;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
