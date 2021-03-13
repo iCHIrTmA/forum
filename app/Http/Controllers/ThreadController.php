@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Filters\ThreadFilters;
-use App\Inspections\Spam;
 use App\Thread;
 use App\User;
+use App\Rules\SpamFree;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -82,11 +82,11 @@ class ThreadController extends Controller
 	public function validateReply(Request $request)
 	{
 		$this->validate($request,[
-			'title' => 'required',
-			'body' => 'required',
-			'channel_id' => 'required|exists:channels,id',
+			'title' => ['required', new Spamfree],
+			'body' => ['required', new Spamfree],
+			'channel_id' => ['required', 'exists:channels,id'],
 		]);
 
-		resolve(Spam::class)->detect(request('body'));		
+		// resolve(Spam::class)->detect(request('body'));		
 	}
 }
