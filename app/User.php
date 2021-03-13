@@ -2,11 +2,12 @@
 
 namespace App;
 
+use App\Reply;
 use App\Thread;
 use Carbon\Carbon;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -47,6 +48,11 @@ class User extends Authenticatable
     public function threads()
     {
         return $this->hasMany(Thread::class)->latest();
+    }
+
+    public function lastReply()
+    {
+        return $this->hasOne(Reply::class)->latest();
     }
 
     public function activity()

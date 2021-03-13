@@ -17,7 +17,6 @@ class ReplyController extends Controller
 	public function store($channelId, Thread $thread)
 	{
 		try {
-
 			request()->validate([
 				'body' => ['required', new Spamfree],
 			]); // laravel 5.5 +
@@ -33,11 +32,11 @@ class ReplyController extends Controller
 			return response('Sorry your reply could not be saved', 422);
 		}
 
-		return $reply->load('owner');
 
 		// if (request()->expectsJson()) {
 		// 	return $reply;
-		// }
+		}
+		return $reply->load('owner');
 
 		// return back()
 		// 	->with('flash', 'Your reply is submitted');
