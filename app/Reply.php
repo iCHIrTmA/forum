@@ -43,6 +43,13 @@ class Reply extends Model
 		return $this->created_at->gt(Carbon::now()->subMinute()); // is latest reply by user created_at > one minute before now?	
 	}
 
+	public function mentionedUsers()
+	{
+	    preg_match_all('/\@([^\s\.]+)/', $this->body, $matches);
+
+        return $matches[1];		
+	}
+
 	public function path()
 	{
 		return $this->thread->path() . "#reply-{$this->id}";
