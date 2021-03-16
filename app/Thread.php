@@ -6,6 +6,7 @@ use App\Activity;
 use App\Channel;
 use App\Notifications\ThreadWasUpdated;
 use App\Providers\ThreadHasNewReply;
+use App\Providers\ThreadReceivedNewReply;
 use App\RecordsActivity;
 use App\Reply;
 use App\ThreadSubscription;
@@ -57,8 +58,10 @@ class Thread extends Model
     {        
     	$reply = $this->replies()->create($reply);
 
-        $this->notifySubscribers($reply);
+        event(new ThreadReceivedNewReply($reply));
 
+        $this->notifySubscribers($reply);
+        
         return $reply;
     }
 
