@@ -45,6 +45,6 @@ class ReplyTest extends TestCase
 	{
 		$reply = new Reply(['body' => 'Hello @JennyDoe.']);
 
-		$this->assertEquals('Hello <a href="/profiles/JennyDoe">@JennyDoe</a>.', $reply->body);
+		$this->assertEquals('Hello <a href="http://localhost/Laravel/forum/public/profiles/JennyDoe">@JennyDoe</a>.', $reply->body);
 	}
 }
