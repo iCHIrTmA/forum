@@ -47,8 +47,7 @@
 				delay: 750,
 				callbacks: {
 					remoteFilter: function(query, callback) {
-						console.log('called');
-						$.getJSON("api/users", {name: query}, function(username) {
+						$.getJSON(location.origin + "/Laravel/forum/public/api/users", {name: query}, function(usernames) {
 							callback(usernames)
 						});
 					}

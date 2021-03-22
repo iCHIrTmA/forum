@@ -3335,10 +3335,9 @@ __webpack_require__.r(__webpack_exports__);
       delay: 750,
       callbacks: {
         remoteFilter: function remoteFilter(query, callback) {
-          console.log('called');
-          $.getJSON("api/users", {
+          $.getJSON(location.origin + "/Laravel/forum/public/api/users", {
             name: query
-          }, function (username) {
+          }, function (usernames) {
             callback(usernames);
           });
         }
