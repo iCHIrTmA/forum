@@ -33,7 +33,7 @@ Route::post('/replies/{reply}/favorites', 'FavoriteController@store')->middlewar
 Route::delete('/replies/{reply}/favorites', 'FavoriteController@destroy')->middleware('auth');
 
 
-Route::get('/profiles/{user}', 'ProfileController@show');
+Route::get('/profiles/{user}', 'ProfileController@show')->name('profile');
 Route::get('/profiles/{user}/notifications', 'UserNotificationController@index')->middleware('auth');
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationController@destroy')->middleware('auth');
 

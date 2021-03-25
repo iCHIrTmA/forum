@@ -76,7 +76,7 @@ class ThreadController extends Controller
 
 		// dd($threads->toSql());
 
-		return $threads->get();		
+		return $threads->paginate(25);		
 	}
 
 	public function validateReply(Request $request)
