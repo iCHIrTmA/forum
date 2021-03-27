@@ -3,7 +3,7 @@
 	<h1 v-text="user.name"></h1>
 
 		<form v-if="canUpdate"method="POST" enctype="multipart/form-data">
-			<input type="file" name="avatar" accept="image/*" @change="onChange">
+			<image-upload name="avatar" class="mr-1" @loaded="onLoad"></image-upload>
 			<button type="submit" @click.prevent="persist">Add Avatar</button>							
 		</form>
 
@@ -12,8 +12,11 @@
 </template>
 
 <script>
+	import ImageUpload from './ImageUpload.vue';
 	export default {
 		props: ['user'],
+
+		components: { ImageUpload },
 
 		data() {
 			return {
@@ -29,19 +32,9 @@
 		},
 
 		methods: {
-			onChange(e) {
-				if(! e.target.files.length) return;
-
-				let file = e.target.files[0];
-
-				let reader = new FileReader();
-
-				reader.readAsDataURL(file);
-
-				reader.onload = e => {
-					this.avatar = e.target.result
-				};
-				this.fileUploaded = file;
+			onLoad(avatar) {
+				this.avatar = avatar.src
+				this.fileUploaded = avatar.file;
 			},
 			persist() {
 				let data = new FormData();

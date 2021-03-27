@@ -70,9 +70,14 @@ class User extends Authenticatable
         cache()->forever($this->visitedThreadCacheKey($thread), Carbon::now());
     }
 
-    public function avatar()
+    public function getAvatarPathAttribute($avatar)
     {
-        return $this->avatar_path ?: 'avatars/default.jpg';
+        if($avatar) {
+            return asset('storage/' . $avatar);
+        } else {
+            return asset('storage/avatars/default.jpg');
+        }
+        // return asset('storage/' . $avatar ? : 'avatars/default.jpg');
         // return $this->avatar_path;
     }
 }
