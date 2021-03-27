@@ -12,6 +12,9 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="level">
+                        @if($thread->creator->avatar())
+                            <img src="{{ asset('storage/' . $thread->creator->avatar()) }}" width="25">
+                        @endif
                             <h5 class="flex">
                                 <a href="{{ url('profiles/' . $thread->creator->name) }}"> 
                                     {{ $thread->creator->name }} 
