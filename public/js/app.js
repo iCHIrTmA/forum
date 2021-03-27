@@ -3192,7 +3192,8 @@ __webpack_require__.r(__webpack_exports__);
   props: ['user'],
   data: function data() {
     return {
-      avatar: ''
+      avatar: this.user.avatar_path,
+      fileUploaded: ''
     };
   },
   computed: {
@@ -3201,6 +3202,29 @@ __webpack_require__.r(__webpack_exports__);
 
       return this.authorize(function (user) {
         return user.id === _this.user.id;
+      });
+    }
+  },
+  methods: {
+    onChange: function onChange(e) {
+      var _this2 = this;
+
+      if (!e.target.files.length) return;
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = function (e) {
+        _this2.avatar = e.target.result;
+      };
+
+      this.fileUploaded = file;
+    },
+    persist: function persist() {
+      var data = new FormData();
+      data.append('avatar', this.fileUploaded);
+      axios.post("http://localhost/Laravel/forum/public/api/users/".concat(this.user.name, "/avatar"), data).then(function () {
+        return flash('Avatar uploaded!');
       });
     }
   }
@@ -62009,9 +62033,24 @@ var render = function() {
           "form",
           { attrs: { method: "POST", enctype: "multipart/form-data" } },
           [
-            _c("input", { attrs: { type: "file", name: "avatar" } }),
+            _c("input", {
+              attrs: { type: "file", name: "avatar", accept: "image/*" },
+              on: { change: _vm.onChange }
+            }),
             _vm._v(" "),
-            _c("button", { attrs: { type: "submit" } }, [_vm._v("Add Avatar")])
+            _c(
+              "button",
+              {
+                attrs: { type: "submit" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.persist($event)
+                  }
+                }
+              },
+              [_vm._v("Add Avatar")]
+            )
           ]
         )
       : _vm._e(),
