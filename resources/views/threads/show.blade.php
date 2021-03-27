@@ -13,7 +13,7 @@
                     <div class="card-header">
                         <div class="level">
                         @if($thread->creator->avatar_path)
-                            <img src="{{ asset('storage/' . $thread->creator->avatar_path) }}" width="25">
+                            <img src="{{ $thread->creator->avatar_path }}" width="25">
                         @endif
                             <h5 class="flex">
                                 <a href="{{ url('profiles/' . $thread->creator->name) }}"> 
