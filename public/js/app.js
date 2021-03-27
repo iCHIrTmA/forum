@@ -3189,6 +3189,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
@@ -3198,7 +3200,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       avatar: this.user.avatar_path,
-      fileUploaded: ''
+      fileToUpload: ''
     };
   },
   computed: {
@@ -3213,11 +3215,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     onLoad: function onLoad(avatar) {
       this.avatar = avatar.src;
-      this.fileUploaded = avatar.file;
+      this.fileToUpload = avatar.file;
     },
     persist: function persist() {
       var data = new FormData();
-      data.append('avatar', this.fileUploaded);
+      data.append('avatar', this.fileToUpload);
       axios.post("http://localhost/Laravel/forum/public/api/users/".concat(this.user.name, "/avatar"), data).then(function () {
         return flash('Avatar uploaded!');
       });
@@ -62059,7 +62061,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h1", { domProps: { textContent: _vm._s(_vm.user.name) } }),
+    _c("div", { staticClass: "level" }, [
+      _c("img", { attrs: { src: _vm.avatar, width: "50" } }),
+      _vm._v(" "),
+      _c("h1", { domProps: { textContent: _vm._s(_vm.user.name) } })
+    ]),
     _vm._v(" "),
     _vm.canUpdate
       ? _c(
@@ -62088,9 +62094,7 @@ var render = function() {
           ],
           1
         )
-      : _vm._e(),
-    _vm._v(" "),
-    _c("img", { attrs: { src: _vm.avatar, width: "50" } })
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
