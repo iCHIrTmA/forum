@@ -21,7 +21,9 @@ class ThreadController extends Controller
 			return $threads;
 		}
 
-		return view('threads.index', compact('threads'));
+		$trending = array_map('json_decode', Redis::zrevrange('trending_threads', 0, 4));
+
+		return view('threads.index', compact('threads', 'trending'));
 	}
 
 	public function create()
