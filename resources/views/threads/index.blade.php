@@ -8,6 +8,17 @@
 
             {{ $threads->render() }}
         </div>
+
+        <div class="col-md-4">
+        	<div class="card">
+        		<div class="card-header">	
+        			Trending Threads
+        		</div>
+        		<div class="card-body">
+        			notes
+        		</div>
+        	</div>
+        </div>
     </div>
 </div>
 @endsection

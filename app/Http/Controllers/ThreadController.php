@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Filters\ThreadFilters;
+use App\Rules\SpamFree;
 use App\Thread;
 use App\User;
-use App\Rules\SpamFree;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class ThreadController extends Controller
 {
@@ -48,6 +49,11 @@ class ThreadController extends Controller
 		if (auth()->check()) {
 			auth()->user()->read($thread);
 		}
+
+		Redis::zincrby('trending_threads', 1, json_encode([
+			'title' => $thread->title,
+			'path' => $thread->path(),
+		]));
 
 		return view('threads.show', [
 			'thread' => $thread,
