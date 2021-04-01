@@ -11,7 +11,6 @@ use App\RecordsActivity;
 use App\Reply;
 use App\ThreadSubscription;
 use App\User;
-use App\Visits;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
@@ -104,10 +103,5 @@ class Thread extends Model
         $key = $user->visitedThreadCacheKey($this);
 
         return $this->updated_at > cache($key);        
-    }
-
-    public function visits()
-    {
-        return new Visits($this);
     }
 }
