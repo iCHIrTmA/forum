@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="card-footer">
-                        100 visits
+                        {{ $thread->visits() }} visits
                     </div>
                 </div>
             @empty

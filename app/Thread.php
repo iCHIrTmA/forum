@@ -12,11 +12,11 @@ use App\Reply;
 use App\ThreadSubscription;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Redis;
 
 class Thread extends Model
 {
     use RecordsActivity;
+    use RecordsVisits;
 
 	protected $guarded = [];
     protected $with = ['creator', 'channel'];
@@ -104,29 +104,5 @@ class Thread extends Model
         $key = $user->visitedThreadCacheKey($this);
 
         return $this->updated_at > cache($key);        
-    }
-
-    public function recordVisit()
-    {
-        Redis::incr($this->visitsCacheKey());
-
-        return $this;
-    }
-
-    public function visits()
-    {
-        return Redis::get($this->visitsCacheKey());
-    }
-
-    public function resetVisits()
-    {
-        Redis::del($this->visitsCacheKey());
-
-        return $this;
-    }
-
-    public function visitsCacheKey()
-    {
-        return "threads.{$this->id}.visits";        
     }
 }
