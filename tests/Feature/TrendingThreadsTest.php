@@ -34,4 +34,10 @@ class TrendingThreadsTest extends TestCase
         
         $this->assertEquals($thread->title, json_decode($trending[0])->title); 
     }
+
+    /** @test **/
+    public function another_test()
+    {
+
+    }
 }
