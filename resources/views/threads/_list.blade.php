@@ -28,6 +28,10 @@
                     <div class="card-body">
                         <div class="body">{{ $thread->body }}</div>
                     </div>
+
+                    <div class="card-footer">
+                        100 visits
+                    </div>
                 </div>
             @empty
                 <p>No threads yet</p>

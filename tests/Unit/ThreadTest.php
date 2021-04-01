@@ -2,15 +2,16 @@
 
 namespace Tests\Unit;
 
-use App\User;
-use App\Thread;
 use App\Channel;
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Notifications\ThreadWasUpdated;
-use Illuminate\Support\Facades\Notification;
+use App\Thread;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Redis;
+use Tests\TestCase;
 
 class ThreadTest extends TestCase
 {
@@ -131,5 +132,23 @@ class ThreadTest extends TestCase
 
 			$this->assertFalse($thread->hasUpdatesFor($user));
 		});
+	}
+
+	/** @test **/
+	public function a_thread_can_records_each_visit()
+	{
+		$thread = factory(Thread::class)->make(['id' => 1]);
+
+		$thread->resetVisits();
+
+		$thread->recordVisit();
+
+		$this->assertEquals(1, $thread->visits());
+
+		$thread->recordVisit();
+
+		$this->assertEquals(2, $thread->visits());
+
+		// $thread->visits();
 	}
 }
