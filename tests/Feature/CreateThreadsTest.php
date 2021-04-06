@@ -27,7 +27,13 @@ class CreateThreadsTest extends TestCase
     /** @test **/
     public function authenticated_users_must_first_confirm_their_email_before_creating_threads()
     {
-        $this->publishThread()
+        $user = factory(User::class)->create(); // User Model has confirmed => false 
+
+        $this->signIn($user);
+
+        $thread = factory(Thread::class)->make();
+
+        return $this->post('/threads', $thread->toArray())
             ->assertRedirect('/threads')
             ->assertSessionHas('flash');
     }    
