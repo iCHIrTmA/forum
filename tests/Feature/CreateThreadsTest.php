@@ -19,22 +19,22 @@ class CreateThreadsTest extends TestCase
     /** @test **/
     public function guests_may_not_create_threads()
     {        
-        $this->get('/threads/create')->assertRedirect('/login');
+        $this->get('/threads/create')->assertRedirect(route('login'));
 
-        $this->post('/threads', [])->assertRedirect('/login');
+        $this->post(route('threads'), [])->assertRedirect(route('login'));
     }
 
     /** @test **/
-    public function authenticated_users_must_first_confirm_their_email_before_creating_threads()
+    public function new_users_must_first_confirm_their_email_before_creating_threads()
     {
-        $user = factory(User::class)->create(); // User Model has confirmed => false 
+        $user = factory(User::class)->states('unconfirmed')->create(); // User Model has state unconfirmed
 
         $this->signIn($user);
 
         $thread = factory(Thread::class)->make();
 
-        return $this->post('/threads', $thread->toArray())
-            ->assertRedirect('/threads')
+        return $this->post(route('threads'), $thread->toArray())
+            ->assertRedirect(route('threads'))
             ->assertSessionHas('flash');
     }    
 
@@ -46,7 +46,7 @@ class CreateThreadsTest extends TestCase
 
         $thread = factory(Thread::class)->make();
 
-        $response = $this->post('/threads', $thread->toArray());
+        $response = $this->post(route('threads'), $thread->toArray());
 
         $this->get($response->headers->get('Location'))
             ->assertSee($thread->title)
@@ -85,7 +85,7 @@ class CreateThreadsTest extends TestCase
         $thread = factory(Thread::class)->create();
 
         $this->delete($thread->path())
-            ->assertRedirect('login');
+            ->assertRedirect(route('login'));
 
         $this->signIn();
 
@@ -119,6 +119,6 @@ class CreateThreadsTest extends TestCase
 
         $thread = factory(Thread::class)->make($overrides);
 
-        return $this->post('/threads', $thread->toArray());
+        return $this->post(route('threads'), $thread->toArray());
     }
 }
