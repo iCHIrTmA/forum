@@ -23,10 +23,6 @@ class EventServiceProvider extends ServiceProvider
             NotifyMentionedUsers::class,
             NotifySubscribers::class,
         ],
-
-        Registered::class => [
-            SendEmailConfirmationRequest::class,
-        ],
     ];
 
     /**
