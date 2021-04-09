@@ -36,7 +36,7 @@ Route::delete('/replies/{reply}/favorites', 'FavoriteController@destroy')->middl
 Route::get('/profiles/{user}', 'ProfileController@show')->name('profile');
 Route::get('/profiles/{user}/notifications', 'UserNotificationController@index')->middleware('auth');
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationController@destroy')->middleware('auth');
-Route::get('/register/confirm', 'Api\RegisterConfirmationController@index')->name('register.confirm');
+Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index')->name('register.confirm');
 
 Route::get('/api/users', 'Api\UsersController@index');
 Route::post('/api/users/{user}/avatar', 'Api\UserAvatarController@store')->middleware('auth')->name('avatar');
