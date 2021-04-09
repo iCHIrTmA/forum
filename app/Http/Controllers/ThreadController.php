@@ -11,6 +11,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 
 class ThreadController extends Controller
 {
@@ -41,6 +42,7 @@ class ThreadController extends Controller
 			'user_id' => auth()->id(),
 			'channel_id' => request('channel_id'), 
 			'title' => request('title'),
+			'slug' => Str::slug(request('title')),
 			'body' => request('body')
 		]);
 		
