@@ -1,6 +1,6 @@
 <template>
 	<div :id="'reply-'+id" class="card">
-	    <div class="card-header">
+	    <div class="card-header" :class="isBest ? 'bg-success' : ''">
 	    	<div class="level">
 	    		<h5 class="flex">
 			        <a :href="'http://localhost/Laravel/forum/public/profiles/'+data.owner.name"
@@ -31,9 +31,12 @@
 	    </div>
 
 	    <!-- @can('update', $reply) -->
-		    <div class="card-footer level" v-if="canUpdate">
-		    	<button class="btn btn-xs btn-outline-secondary mr-1" @click="editing=true">Edit</button>
-		    	<button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
+		    <div class="card-footer level">
+		    	<div  v-if="canUpdate">
+		    		<button class="btn btn-xs btn-outline-secondary mr-1" @click="editing=true">Edit</button>
+		    		<button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
+		    	</div>
+		    	<button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-show="! isBest">Best Reply?</button>
 		    </div>
 	    <!-- @endcan  -->
 	</div>
@@ -53,6 +56,7 @@
 				editing: false,
 				id: this.data.id,
 				body: this.data.body,
+				isBest: false,
 			};
 		},
 
@@ -88,6 +92,10 @@
 				this.$emit('deleted', this.data.id);
 
 				$(this.$el).fadeOut(300);
+			},
+
+			markBestReply() {
+				this.isBest = true;
 			}
 		}
 	}
