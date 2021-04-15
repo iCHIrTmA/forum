@@ -25,7 +25,7 @@ Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
 Route::get('/threads/{channel}/{thread}/replies', 'ReplyController@index');
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store')->middleware('auth');
 Route::patch('/replies/{reply}', 'ReplyController@update')->middleware('auth');
-Route::delete('/replies/{reply}', 'ReplyController@destroy')->middleware('auth');
+Route::delete('/replies/{reply}', 'ReplyController@destroy')->middleware('auth')->name('replies.destroy');
 
 Route::post('/replies/{reply}/best', 'BestReplyController@store')->name('best-replies.store');
 
