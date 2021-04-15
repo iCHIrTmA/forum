@@ -3,13 +3,13 @@
 	    <div class="card-header" :class="isBest ? 'bg-success' : ''">
 	    	<div class="level">
 	    		<h5 class="flex">
-			        <a :href="'http://localhost/Laravel/forum/public/profiles/'+data.owner.name"
-			        	v-text="data.owner.name">
+			        <a :href="'http://localhost/Laravel/forum/public/profiles/'+reply.owner.name"
+			        	v-text="reply.owner.name">
 			        </a> said <span v-text="ago"></span>
 		        </h5>
 
 		        <div v-if="signedIn">
-		        	<favorite :reply="data"></favorite>
+		        	<favorite :reply="reply"></favorite>
 		        </div>
 
 	    	</div>
@@ -31,12 +31,12 @@
 	    </div>
 
 	    <!-- @can('update', $reply) -->
-		    <div class="card-footer level">
-		    	<div  v-if="authorize('updateReply', reply)">
+		    <div class="card-footer level" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
+		    	<div  v-if="authorize('owns', reply)">
 		    		<button class="btn btn-xs btn-outline-secondary mr-1" @click="editing=true">Edit</button>
 		    		<button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
 		    	</div>
-		    	<button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-show="! isBest">Best Reply?</button>
+		    	<button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-if="authorize('owns', reply.thread)">Best Reply?</button>
 		    </div>
 	    <!-- @endcan  -->
 	</div>
@@ -47,23 +47,22 @@
 	import moment from 'moment';
 
 	export default {
-		props: ['data'],
+		props: ['reply'],
 
 		components: { Favorite },
 
 		data() {
 			return {
 				editing: false,
-				id: this.data.id,
-				body: this.data.body,
-				isBest: this.data.isBest,
-				reply: this.data
+				id: this.reply.id,
+				body: this.reply.body,
+				isBest: this.reply.isBest,
 			};
 		},
 
 		computed: {
 			ago() {
-				return moment(this.data.created_at).fromNow() + '...';
+				return moment(this.reply.created_at).fromNow() + '...';
 			},
 		},
 
@@ -75,7 +74,7 @@
 
 		methods: {
 			update() {
-				axios.patch('http://localhost/Laravel/forum/public/replies/' + this.data.id, {
+				axios.patch('http://localhost/Laravel/forum/public/replies/' + this.reply.id, {
 					body: this.body
 				})
 					.catch(error => {
@@ -86,17 +85,17 @@
 			},
 
 			destroy() {
-				axios.delete('http://localhost/Laravel/forum/public/replies/' + this.data.id);
+				axios.delete('http://localhost/Laravel/forum/public/replies/' + this.reply.id);
 
-				this.$emit('deleted', this.data.id);
+				this.$emit('deleted', this.reply.id);
 
 				$(this.$el).fadeOut(300);
 			},
 
 			markBestReply() {
-				axios.post('http://localhost/Laravel/forum/public/replies/' + this.data.id + '/best');
+				axios.post('http://localhost/Laravel/forum/public/replies/' + this.reply.id + '/best');
 
-				window.events.$emit('best-reply-selected', this.data.id);
+				window.events.$emit('best-reply-selected', this.reply.id);
 			}
 		}
 	}
