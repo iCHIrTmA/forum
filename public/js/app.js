@@ -3656,7 +3656,7 @@ __webpack_require__.r(__webpack_exports__);
       editing: false,
       id: this.data.id,
       body: this.data.body,
-      isBest: false,
+      isBest: this.data.isBest,
       reply: this.data
     };
   },
@@ -3664,6 +3664,13 @@ __webpack_require__.r(__webpack_exports__);
     ago: function ago() {
       return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.created_at).fromNow() + '...';
     }
+  },
+  created: function created() {
+    var _this = this;
+
+    window.events.$on('best-reply-selected', function (id) {
+      _this.isBest = id === _this.id;
+    });
   },
   methods: {
     update: function update() {
@@ -3680,7 +3687,8 @@ __webpack_require__.r(__webpack_exports__);
       $(this.$el).fadeOut(300);
     },
     markBestReply: function markBestReply() {
-      this.isBest = true;
+      axios.post('http://localhost/Laravel/forum/public/replies/' + this.data.id + '/best');
+      window.events.$emit('best-reply-selected', this.data.id);
     }
   }
 });
