@@ -27,6 +27,8 @@ Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store')->mid
 Route::patch('/replies/{reply}', 'ReplyController@update')->middleware('auth');
 Route::delete('/replies/{reply}', 'ReplyController@destroy')->middleware('auth')->name('replies.destroy');
 
+Route::post('/locked-threads/{thread}', 'LockedThreadController@store')->name('locked-threads.store')->middleware('admin');
+
 Route::post('/replies/{reply}/best', 'BestReplyController@store')->name('best-replies.store');
 
 Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@store')->middleware('auth');;

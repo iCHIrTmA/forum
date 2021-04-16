@@ -33,3 +33,9 @@ $factory->state(User::class, 'unconfirmed', function($faker) {
         'confirmed' => false,
     ]; 
 });
+
+$factory->state(User::class, 'administrator', function($faker) {
+    return [
+        'name' => 'JohnDoe',
+    ]; 
+});
