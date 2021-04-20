@@ -27,7 +27,7 @@ class LockThreadsTest extends TestCase
     }
 
     /** @test **/
-    public function an_administrator_can_lock_any_thread()
+    public function an_administrator_can_lock_threads()
     {
         $this->signIn(factory(User::class)->states('administrator')->create());
 
@@ -39,13 +39,26 @@ class LockThreadsTest extends TestCase
     }
 
     /** @test **/
+    public function an_administrator_can_unlock_threads()
+    {
+        $this->withoutExceptionHandling();
+        $this->signIn(factory(User::class)->states('administrator')->create());
+
+        $thread = factory(Thread::class)->create(['user_id' => auth()->id(), 'locked' => true]);
+
+        $this->assertTrue($thread->fresh()->locked);
+
+        $this->delete(route('locked-threads.destroy', $thread))->assertStatus(200);
+
+        $this->assertFalse($thread->fresh()->locked);
+    }
+
+    /** @test **/
     public function once_locked_thread_may_not_received_any_replies()
     {
         $this->signIn();
 
-        $thread = factory(Thread::class)->create();
-
-        $thread->lock();
+        $thread = factory(Thread::class)->create(['locked' => true]);
 
         $this->post($thread->path() . '/replies', [
             'body' => 'Foobar',
