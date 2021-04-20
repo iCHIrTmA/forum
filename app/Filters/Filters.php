@@ -37,9 +37,4 @@ abstract class Filters
 	{
 		return $this->request->only($this->filters); 
 	}
-
-	// public function hasFilter($filter): bool
-	// {
-	// 	return $this->request->has($filter);
-	// }
 }
