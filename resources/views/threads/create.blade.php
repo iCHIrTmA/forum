@@ -38,6 +38,8 @@
                             </textarea>
                         </div>
 
+                        {{-- The recaptcha will not show up when offline --}}
+
                         <div class="form-group">
                             <form action="?" method="POST">
                                 <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
@@ -47,8 +49,6 @@
                                 </div>
                             </form>
                         </div>
-
-
 
                         @if (count($errors))
                             <ul class="alert alert-danger">
