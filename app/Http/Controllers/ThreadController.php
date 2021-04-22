@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
+use Zttp\Zttp;
 
 class ThreadController extends Controller
 {
@@ -36,7 +37,20 @@ class ThreadController extends Controller
 
 	public function store(Request $request)
 	{
+		// dd($request->all());
 		$this->validateReply($request);
+
+		// $response = Zttp::asFormParams()->post('https://www.google.com/recaptcha/api/siteverify', [
+		// 	'secret' => config('services.recaptcha.secret'),
+		// 	'response' => $request->input('g-recaptcha-response'),
+		// 	'remoteip' => $_SERVER['REMOTE_ADDR'],
+		// ]);
+
+		// dd($response->json()['success']);
+
+		// if(! $response->json()['success']) {
+		// 	throw new \Exception('Recaptcha failed');
+		// }
 
 		$thread = Thread::create([
 			'user_id' => auth()->id(),
