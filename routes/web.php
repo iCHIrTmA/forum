@@ -19,6 +19,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/threads', 'ThreadController@index')->name('threads');
 Route::get('/threads/create', 'ThreadController@create')->middleware('auth');
 Route::post('/threads', 'ThreadController@store')->middleware('auth', 'must-be-confirmed');
+Route::patch('/threads/{channel}/{thread}', 'ThreadController@update')->middleware('auth', 'must-be-confirmed');
 Route::get('/threads/{channel}', 'ThreadController@index');
 Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy')->middleware('auth');
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show');

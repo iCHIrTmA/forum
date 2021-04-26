@@ -82,6 +82,19 @@ class ThreadController extends Controller
 		]);
 	}
 
+	public function update($channel, Thread $thread)
+	{
+		$this->authorize('update', $thread);
+
+		$thread->update(request()->validate([
+			'title' => ['required', new Spamfree],
+			'body' => ['required', new Spamfree],
+		]));
+
+		return $thread;
+
+	}
+
 	public function destroy($channel, Thread $thread)
 	{
 		$this->authorize('update', $thread);
