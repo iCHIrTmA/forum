@@ -29,8 +29,9 @@
     <style type="text/css">
         body { padding-bottom: 100px; } 
         .level { display: flex; align-items: center; }
+        .level-item { margin-right: 1em; }
         .flex { flex: 1; }  
-        .mr-1 { margin-right: 1em; }
+        .mr-1 {  }
         .ml-a { margin-left: auto; }
     </style>
 

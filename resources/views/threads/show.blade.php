@@ -9,34 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="level">
-                        @if($thread->creator->avatar_path)
-                            <img src="{{ $thread->creator->avatar_path }}" width="25">
-                        @endif
-                            <h5 class="flex">
-                                <a href="{{ url('profiles/' . $thread->creator->name) }}"> 
-                                    {{ $thread->creator->name }} 
-                                </a> posted
-                                {{ $thread->title }}
-                            </h5>
-
-                            @can('update', $thread)   
-                                <form action="{{ url($thread->path()) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-link">Delete Thread</button>
-                                </form>
-                            @endcan
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        {{ $thread->body }}
-                    </div>
-                </div>
-
+                @include('threads._question')
                 <replies @added="repliesCount++" @removed="repliesCount--"></replies>                
             </div>
 
