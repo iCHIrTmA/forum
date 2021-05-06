@@ -33,6 +33,7 @@
         .flex { flex: 1; }  
         .mr-1 {  }
         .ml-a { margin-left: auto; }
+        .ais-highlight > em { background: yellow; font-style: normal; }
     </style>
 
     @yield('header')
