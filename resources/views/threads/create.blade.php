@@ -34,8 +34,9 @@
 
                         <div class="form-group">
                             <label for="body">Body</label>
-                            <textarea type="text" name="body" id="body" class="form-control" rows="8" placeholder="Something to say?" required>{{ old('body')}}
-                            </textarea>
+                            <wysiwyg name="body"></wysiwyg>
+{{--                             <textarea type="text" name="body" id="body" class="form-control" rows="8" placeholder="Something to say?" required>{{ old('body')}}
+                            </textarea> --}}
                         </div>
 
                         {{-- The recaptcha will not show up when offline --}}
