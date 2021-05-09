@@ -59,4 +59,12 @@ class ReplyTest extends TestCase
 
 		$this->assertTrue($reply->isBest());		
 	}
+
+	/** @test **/
+	public function a_reply_body_is_sanitized_automatically()
+	{
+		$reply = factory(Reply::class)->make(['body' => '<script>alert("Bad!")</script><p>Good</p>']);
+
+		$this->assertEquals('<p>Good</p>', $reply->body);
+	}
 }
